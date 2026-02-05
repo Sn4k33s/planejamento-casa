@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/rooms.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}

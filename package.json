@@ -1,8 +1,6 @@
 {
-  "name": "planejamento-casa",
-  "version": "3.0.0",
-  "description": "Planejador de casa com salvamento permanente no Vercel Blob",
-  "dependencies": {
-    "@vercel/blob": "^0.22.0"
+  "type": "module",
+  "engines": {
+    "node": "20.x"
   }
 }
