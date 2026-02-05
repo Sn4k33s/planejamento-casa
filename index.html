@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planejamento da Minha Casa 🏠</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            font-size: 3em;
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-subtitle {
+            text-align: center;
+            color: rgba(255,255,255,0.95);
+            font-size: 1.1em;
+            margin-top: -30px;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .add-room-btn {
+            display: block;
+            margin: 0 auto 40px;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-room-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .add-room-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .add-room-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(72, 187, 120, 0.5);
+        }
+
+        .add-room-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .room-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 30px;
+            padding: 35px;
+            margin-bottom: 35px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.1);
+            animation: slideInScale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes slideInScale {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(90deg, #667eea, #764ba2) border-box;
+            border-image: linear-gradient(90deg, #667eea, #764ba2) 1;
+        }
+
+        .room-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .room-icon {
+            font-size: 3em;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .room-title {
+            font-size: 2.2em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .delete-room-btn {
+            background: linear-gradient(135deg, #fc8181, #f56565);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(245, 101, 101, 0.3);
+        }
+
+        .delete-room-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 101, 101, 0.4);
+        }
+
+        .furniture-section {
+            background: linear-gradient(135deg, #fafbff 0%, #f0f4ff 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.08);
+            border: 2px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s;
+        }
+
+        .furniture-section:hover {
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .furniture-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px dashed rgba(102, 126, 234, 0.2);
+        }
+
+        .furniture-name {
+            font-size: 1.5em;
+            color: #2d3748;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .furniture-link {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 0.9em;
+            font-weight: 500;
+            padding: 8px 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 8px;
+            transition: all 0.3s;
+        }
+
+        .furniture-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateX(5px);
+        }
+
+        .items-list {
+            margin-top: 15px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            background: white;
+            margin-bottom: 0;
+            border-radius: 15px;
+            border-left: 5px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(135deg, #667eea, #764ba2) border-box;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .item-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9em;
+            word-break: break-all;
+            font-weight: 500;
+            padding: 6px 12px;
+            background: rgba(102, 126, 234, 0.08);
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .item-link:hover {
+            background: rgba(102, 126, 234, 0.15);
+            transform: translateX(3px);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #fc8181, #f56565);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-left: 15px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(252, 129, 129, 0.3);
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(252, 129, 129, 0.4);
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #667eea, #5a67d8);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 15px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+            font-size: 1.3em;
+            opacity: 0.9;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .room-card {
+                padding: 25px;
+            }
+
+            .room-title {
+                font-size: 1.6em;
+            }
+
+            .room-icon {
+                font-size: 2.2em;
+            }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.3em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-input-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .modal-input-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .modal-input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-footer {
+            padding: 20px 30px;
+            background: #f7fafc;
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .modal-btn-cancel {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #cbd5e0;
+            transform: translateY(-2px);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            text-align: center;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .confirm-modal {
+            max-width: 400px;
+        }
+
+        .confirm-modal .modal-body {
+            padding: 40px 30px;
+        }
+
+        /* Image Preview Styles */
+        .item-thumbnail,
+        .furniture-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 3px solid #e2e8f0;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .furniture-thumbnail {
+            width: 70px;
+            height: 70px;
+        }
+
+        .item-thumbnail img,
+        .furniture-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .favicon-preview {
+            padding: 15px;
+            object-fit: contain !important;
+        }
+
+        .link-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 2px dashed #cbd5e0;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .link-preview:has(.link-preview-img-large) {
+            align-items: stretch;
+        }
+
+        .link-preview-placeholder {
+            color: #a0aec0;
+            text-align: center;
+            font-size: 0.95em;
+        }
+
+        .link-preview-loading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .link-preview-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .link-preview-img-large {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 12px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .link-preview-info {
+            flex: 1;
+        }
+
+        .link-preview-domain {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .link-preview-url {
+            font-size: 0.85em;
+            color: #718096;
+            word-break: break-all;
+        }
+
+        .link-preview-error {
+            color: #f56565;
+            text-align: center;
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏠 Planejamento da Minha Casa</h1>
+        <div class="header-subtitle">Organize todos os móveis e itens de cada cômodo com estilo ✨</div>
+        <button class="add-room-btn" onclick="addRoom()">➕ Adicionar Cômodo</button>
+        <div id="rooms-container"></div>
+    </div>
+
+    <script>
+        let rooms = [];
+
+        async function getProductImage(url) {
+            if (!url || !url.startsWith('http')) return null;
+            
+            try {
+                // Usar API do Microlink para pegar a imagem do produto
+                const apiUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&meta=false&embed=screenshot.url`;
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data.screenshot?.url) {
+                    return data.data.screenshot.url;
+                }
+            } catch (e) {
+                console.log('Erro ao buscar imagem:', e);
+            }
+            
+            // Fallback: tentar pegar Open Graph image
+            try {
+                const apiUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&palette=true&audio=false&video=false`;
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                
+                if (data.status === 'success' && data.data.image?.url) {
+                    return data.data.image.url;
+                }
+            } catch (e) {
+                console.log('Erro ao buscar Open Graph:', e);
+            }
+            
+            return null;
+        }
+
+        function showModal(title, fields, callback) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            let fieldsHTML = '';
+            fields.forEach(field => {
+                fieldsHTML += `
+                    <div class="modal-input-group">
+                        <label>${field.label}</label>
+                        <input type="text" id="${field.id}" placeholder="${field.placeholder}" ${field.required ? 'required' : ''}>
+                        ${field.id.includes('Link') ? '<div class="link-preview" id="preview-' + field.id + '"><div class="link-preview-placeholder">🔗 Cole um link de produto para ver a imagem</div></div>' : ''}
+                    </div>
+                `;
+            });
+
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${title}</h2>
+                        <button class="modal-close" onclick="closeModal()">✕</button>
+                    </div>
+                    <div class="modal-body">
+                        ${fieldsHTML}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn modal-btn-cancel" onclick="closeModal()">Cancelar</button>
+                        <button class="modal-btn modal-btn-confirm" onclick="submitModal()">Confirmar</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            // Adicionar listener para preview de link
+            fields.forEach(field => {
+                if (field.id.includes('Link')) {
+                    const input = modal.querySelector('#' + field.id);
+                    const preview = modal.querySelector('#preview-' + field.id);
+                    let debounceTimer;
+                    
+                    input.addEventListener('input', (e) => {
+                        const url = e.target.value.trim();
+                        
+                        clearTimeout(debounceTimer);
+                        
+                        if (!url) {
+                            preview.innerHTML = `
+                                <div class="link-preview-placeholder">🔗 Cole um link de produto para ver a imagem</div>
+                            `;
+                            return;
+                        }
+                        
+                        if (!url.startsWith('http')) {
+                            preview.innerHTML = `
+                                <div class="link-preview-placeholder">💡 O link deve começar com http:// ou https://</div>
+                            `;
+                            return;
+                        }
+                        
+                        preview.innerHTML = `
+                            <div class="link-preview-loading">
+                                <div class="spinner"></div>
+                                <span>Buscando imagem do produto...</span>
+                            </div>
+                        `;
+                        
+                        debounceTimer = setTimeout(async () => {
+                            try {
+                                const imageUrl = await getProductImage(url);
+                                
+                                if (imageUrl) {
+                                    const domain = new URL(url).hostname.replace('www.', '');
+                                    preview.innerHTML = `
+                                        <img class="link-preview-img-large" src="${imageUrl}" alt="Preview do produto" onerror="this.parentElement.innerHTML='<div class=\\'link-preview-error\\'>❌ Não foi possível carregar a imagem</div>'">
+                                        <div class="link-preview-info">
+                                            <div class="link-preview-domain">✅ Imagem encontrada!</div>
+                                            <div class="link-preview-url">${domain}</div>
+                                        </div>
+                                    `;
+                                    
+                                    // Salvar a URL da imagem para uso posterior
+                                    input.dataset.imageUrl = imageUrl;
+                                } else {
+                                    preview.innerHTML = `
+                                        <div class="link-preview-error">⚠️ Não conseguimos extrair a imagem do produto. O link será salvo mesmo assim.</div>
+                                    `;
+                                }
+                            } catch (e) {
+                                preview.innerHTML = `
+                                    <div class="link-preview-error">❌ Erro ao buscar imagem. Verifique o link.</div>
+                                `;
+                            }
+                        }, 1000);
+                    });
+                }
+            });
+
+            // Focus no primeiro input
+            setTimeout(() => {
+                const firstInput = modal.querySelector('input');
+                if (firstInput) firstInput.focus();
+            }, 100);
+
+            window.currentModalCallback = callback;
+            window.currentModal = modal;
+
+            // Enter para confirmar
+            modal.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitModal();
+                }
+            });
+        }
+
+        function closeModal() {
+            if (window.currentModal) {
+                window.currentModal.classList.remove('show');
+                setTimeout(() => {
+                    window.currentModal.remove();
+                    window.currentModal = null;
+                }, 300);
+            }
+        }
+
+        function submitModal() {
+            const inputs = window.currentModal.querySelectorAll('input');
+            const values = {};
+            let hasError = false;
+
+            inputs.forEach(input => {
+                if (input.hasAttribute('required') && !input.value.trim()) {
+                    input.style.borderColor = '#f56565';
+                    hasError = true;
+                } else {
+                    values[input.id] = input.value.trim();
+                    // Salvar também a URL da imagem se existir
+                    if (input.dataset.imageUrl) {
+                        values[input.id + '_image'] = input.dataset.imageUrl;
+                    }
+                }
+            });
+
+            if (hasError) {
+                const errorMsg = window.currentModal.querySelector('.error-message') || document.createElement('div');
+                errorMsg.className = 'error-message';
+                errorMsg.textContent = '⚠️ Preencha os campos obrigatórios';
+                if (!window.currentModal.querySelector('.error-message')) {
+                    window.currentModal.querySelector('.modal-body').appendChild(errorMsg);
+                }
+                return;
+            }
+
+            if (window.currentModalCallback) {
+                window.currentModalCallback(values);
+            }
+            closeModal();
+        }
+
+        function showConfirm(message, callback) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            modal.innerHTML = `
+                <div class="modal-content confirm-modal">
+                    <div class="modal-header">
+                        <h2>⚠️ Confirmação</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p style="text-align: center; font-size: 1.1em; color: #4a5568;">${message}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="modal-btn modal-btn-cancel" onclick="closeConfirm(false)">Cancelar</button>
+                        <button class="modal-btn modal-btn-confirm" onclick="closeConfirm(true)">Confirmar</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('show'), 10);
+
+            window.currentConfirmCallback = callback;
+            window.currentConfirmModal = modal;
+        }
+
+        function closeConfirm(confirmed) {
+            if (window.currentConfirmModal) {
+                window.currentConfirmModal.classList.remove('show');
+                setTimeout(() => {
+                    window.currentConfirmModal.remove();
+                    window.currentConfirmModal = null;
+                }, 300);
+                
+                if (window.currentConfirmCallback) {
+                    window.currentConfirmCallback(confirmed);
+                }
+            }
+        }
+
+        function addRoom() {
+            showModal('🏠 Adicionar Cômodo', [
+                { id: 'roomName', label: 'Nome do cômodo', placeholder: 'Ex: Cozinha, Sala, Quarto...', required: true }
+            ], (values) => {
+                const room = {
+                    id: Date.now(),
+                    name: values.roomName,
+                    furniture: []
+                };
+                rooms.push(room);
+                renderRooms();
+            });
+        }
+
+        function deleteRoom(roomId) {
+            showConfirm('Tem certeza que deseja excluir este cômodo?', (confirmed) => {
+                if (confirmed) {
+                    rooms = rooms.filter(r => r.id !== roomId);
+                    renderRooms();
+                }
+            });
+        }
+
+        function addFurniture(roomId) {
+            showModal('🪑 Adicionar Móvel', [
+                { id: 'furnitureName', label: 'Nome do móvel', placeholder: 'Ex: Pia, Armário, Sofá...', required: true },
+                { id: 'furnitureLink', label: 'Link (opcional)', placeholder: 'Cole o link aqui...', required: false }
+            ], (values) => {
+                const room = rooms.find(r => r.id === roomId);
+                room.furniture.push({
+                    id: Date.now(),
+                    name: values.furnitureName,
+                    link: values.furnitureLink || '',
+                    imageUrl: values.furnitureLink_image || '',
+                    items: []
+                });
+                renderRooms();
+            });
+        }
+
+        function deleteFurniture(roomId, furnitureId) {
+            showConfirm('Deseja remover este móvel?', (confirmed) => {
+                if (confirmed) {
+                    const room = rooms.find(r => r.id === roomId);
+                    room.furniture = room.furniture.filter(f => f.id !== furnitureId);
+                    renderRooms();
+                }
+            });
+        }
+
+        function addItem(roomId, furnitureId) {
+            showModal('📦 Adicionar Item', [
+                { id: 'itemName', label: 'Nome do item', placeholder: 'Ex: Torneira, Prateleira...', required: true },
+                { id: 'itemLink', label: 'Link (opcional)', placeholder: 'Cole o link aqui...', required: false }
+            ], (values) => {
+                const room = rooms.find(r => r.id === roomId);
+                const furniture = room.furniture.find(f => f.id === furnitureId);
+                furniture.items.push({
+                    id: Date.now(),
+                    name: values.itemName,
+                    link: values.itemLink || '',
+                    imageUrl: values.itemLink_image || ''
+                });
+                renderRooms();
+            });
+        }
+
+        function deleteItem(roomId, furnitureId, itemId) {
+            showConfirm('Deseja excluir este item?', (confirmed) => {
+                if (confirmed) {
+                    const room = rooms.find(r => r.id === roomId);
+                    const furniture = room.furniture.find(f => f.id === furnitureId);
+                    furniture.items = furniture.items.filter(i => i.id !== itemId);
+                    renderRooms();
+                }
+            });
+        }
+
+        function getRoomIcon(roomName) {
+            const name = roomName.toLowerCase();
+            if (name.includes('cozinha')) return '🍳';
+            if (name.includes('sala')) return '🛋️';
+            if (name.includes('quarto')) return '🛏️';
+            if (name.includes('banheiro')) return '🚿';
+            if (name.includes('área') || name.includes('lavanderia')) return '🧺';
+            if (name.includes('escritório')) return '💼';
+            if (name.includes('garagem')) return '🚗';
+            return '🏠';
+        }
+
+        function renderRooms() {
+            const container = document.getElementById('rooms-container');
+            
+            if (rooms.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-state-icon">🏡</span>
+                        <div>Comece adicionando seu primeiro cômodo!</div>
+                        <div style="font-size: 0.8em; margin-top: 10px; opacity: 0.8;">Clique no botão verde acima ☝️</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+
+            rooms.forEach(room => {
+                const roomCard = document.createElement('div');
+                roomCard.className = 'room-card';
+
+                let furnitureHTML = '';
+                room.furniture.forEach(furniture => {
+                    let itemsHTML = '';
+                    furniture.items.forEach(item => {
+                        const hasImage = item.imageUrl || (item.link && item.link.trim());
+                        const imageUrl = item.imageUrl || (item.link ? `https://www.google.com/s2/favicons?domain=${new URL(item.link).hostname}&sz=128` : '');
+                        
+                        itemsHTML += `
+                            <div class="item">
+                                ${hasImage ? `
+                                    <div class="item-thumbnail">
+                                        <img src="${imageUrl}" 
+                                             alt="${item.name}"
+                                             onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect width=%22100%22 height=%22100%22 fill=%22%23e2e8f0%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2240%22 text-anchor=%22middle%22 dy=%22.3em%22>📦</text></svg>'">
+                                    </div>
+                                ` : ''}
+                                <div class="item-info">
+                                    <div class="item-name">📦 ${item.name}</div>
+                                    ${item.link ? `<a href="${item.link}" target="_blank" class="item-link">🔗 Ver produto</a>` : '<span style="color: #a0aec0; font-size: 0.9em;">Sem link cadastrado</span>'}
+                                </div>
+                                <button class="delete-btn" onclick="deleteItem(${room.id}, ${furniture.id}, ${item.id})">🗑️</button>
+                            </div>
+                        `;
+                    });
+
+                    const hasFurnitureImage = furniture.imageUrl || (furniture.link && furniture.link.trim());
+                    const furnitureImageUrl = furniture.imageUrl || (furniture.link ? `https://www.google.com/s2/favicons?domain=${new URL(furniture.link).hostname}&sz=128` : '');
+                    
+                    furnitureHTML += `
+                        <div class="furniture-section">
+                            <div class="furniture-header">
+                                <div style="flex: 1;">
+                                    <div style="display: flex; align-items: center; gap: 15px;">
+                                        ${hasFurnitureImage ? `
+                                            <div class="furniture-thumbnail">
+                                                <img src="${furnitureImageUrl}" 
+                                                     alt="${furniture.name}"
+                                                     onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect width=%22100%22 height=%22100%22 fill=%22%23e2e8f0%22/><text x=%2250%25%22 y=%2250%25%22 font-size=%2250%22 text-anchor=%22middle%22 dy=%22.3em%22>🪑</text></svg>'">
+                                            </div>
+                                        ` : ''}
+                                        <div>
+                                            <div class="furniture-name">🪑 ${furniture.name}</div>
+                                            ${furniture.link ? `<a href="${furniture.link}" target="_blank" class="furniture-link">🔗 Ver móvel</a>` : '<span style="color: #a0aec0; font-size: 0.9em; margin-top: 8px; display: inline-block;">Sem link cadastrado</span>'}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="delete-btn" onclick="deleteFurniture(${room.id}, ${furniture.id})">🗑️ Remover</button>
+                            </div>
+                            <div class="items-list">
+                                ${itemsHTML || '<div style="text-align: center; padding: 20px; color: #a0aec0;">Nenhum item adicionado ainda</div>'}
+                                <button class="add-btn" onclick="addItem(${room.id}, ${furniture.id})">➕ Adicionar Item</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                roomCard.innerHTML = `
+                    <div class="room-header">
+                        <div class="room-title-wrapper">
+                            <span class="room-icon">${getRoomIcon(room.name)}</span>
+                            <span class="room-title">${room.name}</span>
+                        </div>
+                        <button class="delete-room-btn" onclick="deleteRoom(${room.id})">🗑️ Excluir Cômodo</button>
+                    </div>
+                    ${furnitureHTML || '<div style="text-align: center; padding: 30px; color: #a0aec0; font-size: 1.1em;">Nenhum móvel adicionado ainda</div>'}
+                    <button class="add-btn" onclick="addFurniture(${room.id})">➕ Adicionar Móvel/Item</button>
+                `;
+
+                container.appendChild(roomCard);
+            });
+
+            // Salvar no localStorage
+            localStorage.setItem('housePlanning', JSON.stringify(rooms));
+        }
+
+        // Carregar dados salvos
+        window.onload = function() {
+            const saved = localStorage.getItem('housePlanning');
+            if (saved) {
+                rooms = JSON.parse(saved);
+                renderRooms();
+            }
+        };
+    </script>
+</body>
+</html>
